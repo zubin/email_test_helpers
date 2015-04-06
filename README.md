@@ -1,15 +1,18 @@
 # EmailTestHelpers
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/email_test_helpers`. To experiment with that code, run `bin/console` for an interactive prompt.
+Simple acceptance test helpers for emails
 
-TODO: Delete this and the text above, and describe your gem
+## Features
+
+* Find emails with optional criteria: recipient (to, cc, bcc), subject, body
+* Click links in emails
 
 ## Installation
 
 Add this line to your application's Gemfile:
 
 ```ruby
-gem 'email_test_helpers'
+gem 'email_test_helpers', group: :test
 ```
 
 And then execute:
@@ -20,20 +23,43 @@ Or install it yourself as:
 
     $ gem install email_test_helpers
 
+Load it in your test library of choice, eg:
+
+    # spec/support/email_test_helpers.rb
+    RSpec.configure do |config|
+      config.include EmailTestHelpers
+    end
+
+    # features/support/email_test_helpers.rb
+    World(EmailTestHelpers)
+
 ## Usage
 
-TODO: Write usage instructions here
+Main methods are:
 
-## Development
+* `find_email`
+  * returns the most recent email matching optional criteria
+  * raises NotFound when no matches
+  * optional criteria:
+    * to (email address)
+    * cc (email address)
+    * bcc (email address)
+    * subject (string: exact match; or regexp)
+* `click_email_link`
+  * follows first link matching optional argument
+  * in most recently found email or last sent email when no previous searches
+  * argument can be URL or link text
+  * argument can be string (exact match) or regexp
 
-After checking out the repo, run `bin/setup` to install dependencies. Then, run `bin/console` for an interactive prompt that will allow you to experiment.
+For example, to assert an email confirmation was sent and click the confirmation link:
 
-To install this gem onto your local machine, run `bundle exec rake install`. To release a new version, update the version number in `version.rb`, and then run `bundle exec rake release` to create a git tag for the version, push git commits and tags, and push the `.gem` file to [rubygems.org](https://rubygems.org).
+    find_email to: @current_user.email, subject: /confirm/i
+    click_email_link /confirm/i
 
-## Contributing
+See `spec/email_test_helpers_spec.rb` for more details.
 
-1. Fork it ( https://github.com/[my-github-username]/email_test_helpers/fork )
-2. Create your feature branch (`git checkout -b my-new-feature`)
-3. Commit your changes (`git commit -am 'Add some feature'`)
-4. Push to the branch (`git push origin my-new-feature`)
-5. Create a new Pull Request
+## Licence
+
+MIT Licence
+
+(c) 2015 Zubin Henner
