@@ -2,6 +2,8 @@
 
 Simple acceptance test helpers for emails
 
+[![Build Status](https://travis-ci.org/zubin/email_test_helpers.svg)](https://travis-ci.org/zubin/email_test_helpers)
+
 ## Features
 
 * Find emails with optional criteria: recipient (to, cc, bcc), subject, body
