@@ -1,7 +1,7 @@
 class Mailer < ActionMailer::Base
   default from: 'donotreply@example.com'
-  def notify(to:, subject:, body:)
-    mail to: to, subject: subject, body: body
+  def notify(options)
+    mail to: options.fetch(:to), subject: options.fetch(:subject), body: options.fetch(:body)
   end
 end
 
