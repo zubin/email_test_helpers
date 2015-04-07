@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe EmailTestHelpers do
   include EmailTestHelpers
-  after { @last_email = nil }
+  after { reset_last_email }
 
   describe '::VERSION' do
     it 'has a version number' do
@@ -16,6 +16,13 @@ describe EmailTestHelpers do
       allow(self).to receive(:find_email_link).with(key).and_return(link)
       expect(self).to receive(:visit).with(link)
       click_email_link(key)
+    end
+
+    it "doesn't require key" do
+      link = double
+      allow(self).to receive(:find_email_link).with(nil).and_return(link)
+      expect(self).to receive(:visit).with(link)
+      click_email_link
     end
   end
 
@@ -116,6 +123,20 @@ describe EmailTestHelpers do
     context "with link text arg" do
       it "finds matching link" do
         expect(find_email_link('link #2')).to eq('http://second-link')
+      end
+    end
+
+    context "with regexp" do
+      it "finds matching link" do
+        expect(find_email_link(/2/)).to eq('http://second-link')
+      end
+    end
+
+    context "with unhandled type" do
+      it "raises TypeError" do
+        expect do
+          find_email_link(:second)
+        end.to raise_error(TypeError, "key must be Regexp or String (was Symbol)")
       end
     end
 

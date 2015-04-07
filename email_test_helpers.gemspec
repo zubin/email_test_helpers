@@ -23,6 +23,8 @@ Gem::Specification.new do |spec|
   spec.add_dependency 'capybara', '>= 1.0.0'
 
   spec.add_development_dependency 'appraisal'
+  spec.add_development_dependency 'cucumber', '~> 1.3.19'
+  spec.add_development_dependency 'pry'
   spec.add_development_dependency 'rake'
   spec.add_development_dependency 'rspec-core', '~> 3.2.0'
   spec.add_development_dependency 'rspec-expectations'

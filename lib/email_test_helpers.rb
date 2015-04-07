@@ -5,7 +5,7 @@ require 'capybara'
 module EmailTestHelpers
   NotFound = Class.new(StandardError)
 
-  def click_email_link(key)
+  def click_email_link(key = nil)
     visit find_email_link(key)
   end
 
@@ -26,13 +26,25 @@ module EmailTestHelpers
 
   def find_email_link(key = nil)
     if key
-      e = Capybara.string(last_email_body).first("a[href*='#{key}']") ||
-          Capybara.string(last_email_body).first("a", text: key) or
-          raise(NotFound, "Couldn't find link with key: #{key}")
-      e['href']
+      link = Capybara.string(last_email_body).all('a').detect do |element|
+        case key
+        when Regexp then key === element.text || key === element[:href]
+        when String then element.text.downcase.include?(key.downcase) || element[:href].include?(key)
+        else raise TypeError, "key must be Regexp or String (was #{key.class.name})"
+        end
+      end
+      if link
+        link[:href]
+      else
+        raise(NotFound, "Couldn't find link with key: #{key}")
+      end
     else
       Capybara.string(last_email_body).first('a')['href']
     end
+  end
+
+  def reset_last_email
+    @last_email = nil
   end
 
   private
