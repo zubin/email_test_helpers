@@ -10,7 +10,10 @@ Gem::Specification.new do |spec|
   spec.email         = ['zubin@rubidium.com.au']
 
   spec.summary       = %q{Simple acceptance test helpers for emails}
-  spec.description   = %q{Adds ability to find emails and click links in them}
+  spec.description   = <<-EOS
+    EmailTestHelpers are a collection of lightweight helpers designed for acceptance tests.
+    They add ability to find emails and click links in them.
+  EOS
   spec.homepage      = 'https://github.com/zubin/email_test_helpers'
   spec.license       = 'MIT'
 
