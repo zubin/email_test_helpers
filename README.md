@@ -3,6 +3,7 @@
 Simple acceptance test helpers for emails
 
 [![Build Status](https://travis-ci.org/zubin/email_test_helpers.svg)](https://travis-ci.org/zubin/email_test_helpers)
+[![Gem Version](https://badge.fury.io/rb/email_test_helpers.svg)](http://badge.fury.io/rb/email_test_helpers)
 
 ## Features
 
