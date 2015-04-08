@@ -5,12 +5,12 @@ actionmailer_versions = [
 ]
 # Supported Capybara versions
 capybara_versions = [
-  '1.0.0', '1.1.0',
-  '2.0.0', '2.1.0', '2.2.0', '2.3.0', '2.4.0',
+  '1.0.0',
+  '2.4.0',
 ]
 
 actionmailer_versions.product(capybara_versions).each do |actionmailer_version, capybara_version|
-  appraise "actionmailer-#{actionmailer_version} capybara-#{capybara_version}" do
+  appraise "actionmailer-#{actionmailer_version},capybara-#{capybara_version}" do
     gem 'actionmailer', actionmailer_version
     gem 'capybara', capybara_version
   end
