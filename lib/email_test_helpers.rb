@@ -14,6 +14,7 @@ module EmailTestHelpers
   end
 
   def find_email(options = {})
+    validate_options(options)
     @last_email = emails.reverse.detect do |mail|
       [
         options[:to].nil?      || mail.to.include?(options[:to]),
@@ -56,5 +57,13 @@ module EmailTestHelpers
 
   def last_email
     @last_email || find_email
+  end
+
+  def validate_options(options)
+    valid_keys = %i[to cc bcc subject body]
+    invalid_keys = options.keys - valid_keys
+    if invalid_keys.any?
+      raise ArgumentError, "Invalid options detected: #{invalid_keys.join(', ')}"
+    end
   end
 end

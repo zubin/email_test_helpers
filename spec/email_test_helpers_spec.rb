@@ -102,6 +102,14 @@ describe EmailTestHelpers do
         expect(find_email(body: /first body/i)).to eq(first_email)
       end
     end
+
+    context "when invalid option" do
+      it "raises ArgumentError" do
+        expect do
+          find_email(foo: 'bar')
+        end.to raise_error(ArgumentError, "Invalid options detected: foo")
+      end
+    end
   end
 
   describe '#find_email_link' do
