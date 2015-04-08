@@ -41,6 +41,7 @@ describe EmailTestHelpers do
         cc:      ['first cc'],
         bcc:     ['first bcc'],
         subject: "first subject",
+        body:    double(raw_source: "first body message"),
       )
     end
     let(:last_email)  do
@@ -49,6 +50,7 @@ describe EmailTestHelpers do
         cc:      ['last cc'],
         bcc:     ['last bcc'],
         subject: "last subject",
+        body:    double(raw_source: "last body message"),
       )
     end
     before { allow(self).to receive(:emails).and_return([first_email, last_email]) }
@@ -92,6 +94,12 @@ describe EmailTestHelpers do
     context "when not found" do
       it "raises NotFound" do
         expect { find_email(to: 'missing') }.to raise_error(EmailTestHelpers::NotFound)
+      end
+    end
+
+    context "when searching by body (regexp)" do
+      it "returns matching email" do
+        expect(find_email(body: /first body/i)).to eq(first_email)
       end
     end
   end

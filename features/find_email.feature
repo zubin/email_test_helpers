@@ -24,6 +24,9 @@ Feature: Find email
   Scenario: Match by subject
     * `find_email(subject: /welcome/i)` finds "Welcome" email
 
+  Scenario: Match by body
+    * `find_email(body: /welcome/i)` finds "Welcome" email
+
   Scenario: No matches
     * `find_email(subject: "welcome")` raises "EmailTestHelpers::NotFound"
 

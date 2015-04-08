@@ -20,13 +20,14 @@ module EmailTestHelpers
         options[:cc].nil?      || mail.cc.include?(options[:cc]),
         options[:bcc].nil?     || mail.bcc.include?(options[:bcc]),
         options[:subject].nil? || options[:subject] === mail.subject,
+        options[:body].nil?    || options[:body] === email_body(mail),
       ].all?
     end or raise(NotFound, "Couldn't find email with options: #{options.inspect}")
   end
 
   def find_email_link(key = nil)
     if key
-      link = Capybara.string(last_email_body).all('a').detect do |element|
+      link = Capybara.string(email_body).all('a').detect do |element|
         case key
         when Regexp then key === element.text || key === element[:href]
         when String then element.text.downcase.include?(key.downcase) || element[:href].include?(key)
@@ -39,7 +40,7 @@ module EmailTestHelpers
         raise(NotFound, "Couldn't find link with key: #{key}")
       end
     else
-      Capybara.string(last_email_body).first('a')['href']
+      Capybara.string(email_body).first('a')['href']
     end
   end
 
@@ -49,11 +50,11 @@ module EmailTestHelpers
 
   private
 
-  def last_email
-    @last_email || find_email
+  def email_body(mail = last_email)
+    mail.body.raw_source
   end
 
-  def last_email_body
-    last_email.body.raw_source
+  def last_email
+    @last_email || find_email
   end
 end
