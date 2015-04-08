@@ -21,5 +21,5 @@ Feature: Click email link
   Scenario: Match by URL
     * `click_email_link('last-link')` visits "http://last-email/last-link"
 
-  Scenario: Find first email
+  Scenario: Last found email
     * `find_email(subject: "Welcome"); click_email_link` visits "http://first-email/first-link"
