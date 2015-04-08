@@ -60,7 +60,7 @@ module EmailTestHelpers
   end
 
   def validate_options(options)
-    valid_keys = %i[to cc bcc subject body]
+    valid_keys = [:to, :cc, :bcc, :subject, :body]
     invalid_keys = options.keys - valid_keys
     if invalid_keys.any?
       raise ArgumentError, "Invalid options detected: #{invalid_keys.join(', ')}"
