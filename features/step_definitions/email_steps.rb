@@ -5,11 +5,11 @@ class Mailer < ActionMailer::Base
   end
 end
 
-def deliver_method
-  supports_deliver_now = ActionMailer.version >= Gem::Version.new('4.2.0')
-  supports_deliver_now ? :deliver_now : :deliver
-end
-
 Given(/^a "(.*?)" email sent to "(.*?)" containing:$/) do |subject, recipient, body|
-  Mailer.notify(to: recipient, subject: subject, body: body).send deliver_method
+  mail = Mailer.notify(to: recipient, subject: subject, body: body)
+  begin
+    mail.deliver_now # ActionMailer >= 4.2
+  rescue NoMethodError
+    mail.deliver
+  end
 end
