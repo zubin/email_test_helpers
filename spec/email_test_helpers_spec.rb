@@ -51,6 +51,7 @@ describe EmailTestHelpers do
         bcc:     ['last bcc'],
         subject: "last subject",
         body:    double(raw_source: "last body message"),
+        parts:   [], # testing multipart in features
       )
     end
     before { allow(self).to receive(:emails).and_return([first_email, last_email]) }

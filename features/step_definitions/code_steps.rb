@@ -1,13 +1,13 @@
-Then(/^`(.*)` finds "(.*?)" email$/) do |code, subject|
-  mail = eval(code)
-  expect(mail.subject).to eq(subject)
+Then(/^"(.*?)" should find "(.*?)" email$/) do |code, subject|
+  if subject.blank?
+    expect { eval(code) }.to raise_error(EmailTestHelpers::NotFound)
+  else
+    mail = eval(code)
+    expect(mail.subject).to eq(subject)
+  end
 end
 
-Then(/^`(.*)` raises "(.*?)"$/) do |code, exception|
-  expect { eval code }.to raise_error(exception.constantize)
-end
-
-Then(/^`(.*)` visits "(.*?)"$/) do |code, url|
+Then(/^"(.*?)" should visit "(.*?)"$/) do |code, url|
   expect(self).to receive(:visit).with(url)
   eval code
 end

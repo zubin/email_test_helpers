@@ -52,11 +52,21 @@ module EmailTestHelpers
   private
 
   def email_body(mail = last_email)
-    mail.body.raw_source
+    if multipart?
+      mail.body.parts.select do |part|
+        part.content_type.starts_with?('text/')
+      end.map(&:body).map(&:raw_source).join
+    else
+      mail.body.raw_source
+    end
   end
 
   def last_email
     @last_email || find_email
+  end
+
+  def multipart?(mail = last_email)
+    mail.parts.any?
   end
 
   def validate_options(options)

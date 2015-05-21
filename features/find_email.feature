@@ -1,7 +1,8 @@
 Feature: Find email
 
-  Background:
-    Given a "Welcome" email sent to "first@example.com" containing:
+  Scenario Outline:
+    Given emails are sent with "<delivery type>"
+    And a "Welcome" email sent to "first@example.com" containing:
       """html
       <h1><a href="http://first-email/first-link">Welcome</a></h1>
       <p><a href="http://first-email/last-link">Confirm</a></p>
@@ -11,22 +12,19 @@ Feature: Find email
       <h1><a href="http://last-email/first-link">Goodbye</a></h1>
       <p><a href="http://last-email/last-link">Confirm</a></p>
       """
+    Then "<code>" should find "<matching email>" email
 
-  Scenario: No args
-    * `find_email` finds "Goodbye" email
-
-  Scenario: Find by subject
-    * `find_email(subject: "Welcome")` finds "Welcome" email
-
-  Scenario: Find by recipient
-    * `find_email(to: 'first@example.com')` finds "Welcome" email
-
-  Scenario: Match by subject
-    * `find_email(subject: /welcome/i)` finds "Welcome" email
-
-  Scenario: Match by body
-    * `find_email(body: /welcome/i)` finds "Welcome" email
-
-  Scenario: No matches
-    * `find_email(subject: "welcome")` raises "EmailTestHelpers::NotFound"
-
+    Examples:
+      | delivery type | code                                | matching email |
+      | html          | find_email                          | Goodbye        |
+      | html          | find_email(subject: 'Welcome')      | Welcome        |
+      | html          | find_email(to: 'first@example.com') | Welcome        |
+      | html          | find_email(subject: /welcome/i)     | Welcome        |
+      | html          | find_email(body: /welcome/i)        | Welcome        |
+      | html          | find_email(subject: 'welcome')      |                |
+      | multipart     | find_email                          | Goodbye        |
+      | multipart     | find_email(subject: 'Welcome')      | Welcome        |
+      | multipart     | find_email(to: 'first@example.com') | Welcome        |
+      | multipart     | find_email(subject: /welcome/i)     | Welcome        |
+      | multipart     | find_email(body: /welcome/i)        | Welcome        |
+      | multipart     | find_email(subject: 'welcome')      |                |
