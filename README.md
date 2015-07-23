@@ -59,7 +59,7 @@ For example, to assert an email confirmation was sent and click the confirmation
     find_email to: @current_user.email, subject: /confirm/i
     click_email_link /confirm/i
 
-See `spec/email_test_helpers_spec.rb` for more details.
+See specs and features for more details.
 
 ## Licence
 
