@@ -41,7 +41,8 @@ module EmailTestHelpers
         raise(NotFound, "Couldn't find link with key: #{key}")
       end
     else
-      Capybara.string(email_body).first('a')['href']
+      link = Capybara.string(email_body).first('a') or raise(NotFound, "Couldn't find any links")
+      link[:href]
     end
   end
 

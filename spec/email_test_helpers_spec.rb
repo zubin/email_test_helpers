@@ -129,11 +129,23 @@ describe EmailTestHelpers do
       it "returns first link" do
         expect(find_email_link).to eq('http://first-link')
       end
+
+      context "when no links in email" do
+        let(:email_body) { "No links here" }
+
+        it "raises NotFound" do
+          expect { find_email_link }.to raise_error(EmailTestHelpers::NotFound)
+        end
+      end
     end
 
     context "with URL arg" do
       it "finds matching link" do
         expect(find_email_link('second')).to eq('http://second-link')
+      end
+
+      it "raises NotFound when no match" do
+        expect { find_email_link('missing') }.to raise_error(EmailTestHelpers::NotFound)
       end
     end
 
