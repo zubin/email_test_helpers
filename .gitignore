@@ -1,4 +1,5 @@
 /.bundle/
+/.relish
 /.yardoc
 /Gemfile.lock
 /_yardoc/
