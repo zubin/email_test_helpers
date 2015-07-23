@@ -10,32 +10,6 @@ Simple acceptance test helpers for emails
 * Find emails with optional criteria: recipient (to, cc, bcc), subject, body
 * Click links in emails
 
-## Installation
-
-Add this line to your application's Gemfile:
-
-```ruby
-gem 'email_test_helpers', group: :test
-```
-
-And then execute:
-
-    $ bundle
-
-Or install it yourself as:
-
-    $ gem install email_test_helpers
-
-Load it in your test library of choice, eg:
-
-    # spec/support/email_test_helpers.rb
-    RSpec.configure do |config|
-      config.include EmailTestHelpers
-    end
-
-    # features/support/email_test_helpers.rb
-    World(EmailTestHelpers)
-
 ## Usage
 
 Main methods are:
@@ -60,6 +34,30 @@ For example, to assert an email confirmation was sent and click the confirmation
     click_email_link /confirm/i
 
 See specs and features for more details.
+
+## Installation
+
+Add this line to your application's Gemfile:
+
+```ruby
+gem 'email_test_helpers', group: :test, require: false
+```
+
+Load it in your test library of choice, eg:
+
+### Cucumber
+
+```ruby
+# features/support/email_test_helpers.rb
+require 'email_test_helpers/cucumber'
+```
+
+### RSpec
+
+```ruby
+# spec/support/email_test_helpers.rb
+require 'email_test_helpers/rspec'
+```
 
 ## Licence
 
